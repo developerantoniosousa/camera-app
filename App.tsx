@@ -18,6 +18,7 @@ const App = () => {
   const [currentCamera, setCurrentCamera] = useState(
     RNCamera.Constants.Type.front,
   );
+  const [flashMode, setFlashMode] = useState(RNCamera.Constants.FlashMode.off);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -31,13 +32,28 @@ const App = () => {
     setCurrentCamera(nextCamera);
   };
 
+  const handleFlashMode = () => {
+    let nextFlashMode = RNCamera.Constants.FlashMode.on;
+    if (currentCamera === RNCamera.Constants.FlashMode.on) {
+      nextFlashMode = RNCamera.Constants.FlashMode.off;
+    }
+    setFlashMode(nextFlashMode);
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <RNCamera style={styles.cameraPreview} type={currentCamera} />
+      <RNCamera
+        style={styles.cameraPreview}
+        type={currentCamera}
+        flashMode={flashMode}
+      />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={handleFlipCamera}>
           <Text>Flip</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={handleFlashMode}>
+          <Text>Flash</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
