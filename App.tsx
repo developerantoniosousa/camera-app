@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -20,6 +20,8 @@ const App = () => {
   );
   const [flashMode, setFlashMode] = useState(RNCamera.Constants.FlashMode.off);
 
+  const cameraRef = useRef<RNCamera>();
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -40,10 +42,18 @@ const App = () => {
     setFlashMode(nextFlashMode);
   };
 
+  const handleSnap = () => {
+    if (cameraRef && cameraRef.current && cameraRef.current.takePictureAsync) {
+      const options = {quality: 1.0};
+      cameraRef.current.takePictureAsync(options).then(console.log);
+    }
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <RNCamera
+        ref={cameraRef}
         style={styles.cameraPreview}
         type={currentCamera}
         flashMode={flashMode}
@@ -66,6 +76,9 @@ const App = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.btn} onPress={handleFlashMode}>
           <Text>Flash</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={handleSnap}>
+          <Text>Snap</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
