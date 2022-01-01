@@ -55,6 +55,8 @@
 	<string>We need permission to use your device camera.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need permission to access your library of photos to read and save.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need permission to access your library of photos to read and save.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need permission to access your device microphone to record audio.</string>
 </dict>
