@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   btn: {
     backgroundColor: 'rgba(0, 0, 0, .8)',
