@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 
 import {RNCamera} from 'react-native-camera';
-
+import CameraRoll from '@react-native-community/cameraroll';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const App = () => {
@@ -24,6 +26,26 @@ const App = () => {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const hasAndroidPermission = async () => {
+    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+
+    const hasPermission = await PermissionsAndroid.check(permission);
+    if (hasPermission) {
+      return true;
+    }
+
+    const status = await PermissionsAndroid.request(permission);
+    return status === 'granted';
+  };
+
+  const savePicture = async (tag: string) => {
+    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+      return;
+    }
+
+    CameraRoll.save(tag, {type: 'photo'});
   };
 
   const handleFlipCamera = () => {
@@ -42,10 +64,13 @@ const App = () => {
     setFlashMode(nextFlashMode);
   };
 
-  const handleSnap = () => {
+  const handleSnap = async () => {
     if (cameraRef && cameraRef.current && cameraRef.current.takePictureAsync) {
       const options = {quality: 1.0};
-      cameraRef.current.takePictureAsync(options).then(console.log);
+      const pictureResponse = await cameraRef.current.takePictureAsync(options);
+      if (pictureResponse.uri) {
+        savePicture(pictureResponse.uri);
+      }
     }
   };
 
