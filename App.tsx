@@ -70,6 +70,7 @@ const App = () => {
           buttonNegative: 'Cancel',
         }}
         useNativeZoom
+        playSoundOnCapture
       />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={handleFlipCamera}>
