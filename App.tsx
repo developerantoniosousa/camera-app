@@ -1,9 +1,8 @@
-import React, {useRef, useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -15,6 +14,7 @@ import {
 import {RNCamera} from 'react-native-camera';
 import CameraRoll from '@react-native-community/cameraroll';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -85,6 +85,17 @@ const App = () => {
     }
   };
 
+  const flipCameraIconName = useMemo(
+    () =>
+      Platform.OS === 'android' ? 'flip-camera-android' : 'flip-camera-ios',
+    [],
+  );
+  const flashIconName = useMemo(
+    () =>
+      flashMode === RNCamera.Constants.FlashMode.on ? 'flash-off' : 'flash-on',
+    [flashMode],
+  );
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -106,19 +117,19 @@ const App = () => {
           buttonNegative: 'Cancel',
         }}
         useNativeZoom
-        playSoundOnCapture
-      />
-      <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.btn} onPress={handleFlipCamera}>
-          <Text>Flip</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} onPress={handleFlashMode}>
-          <Text>Flash</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} onPress={handleSnap}>
-          <Text>Snap</Text>
-        </TouchableOpacity>
-      </View>
+        playSoundOnCapture>
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btn} onPress={handleFlipCamera}>
+            <Icon name={flipCameraIconName} size={28} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={handleFlashMode}>
+            <Icon name={flashIconName} size={28} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={handleSnap}>
+            <Icon name="photo-camera" size={28} color="white" />
+          </TouchableOpacity>
+        </View>
+      </RNCamera>
     </SafeAreaView>
   );
 };
@@ -141,6 +152,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginHorizontal: 2.5,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
