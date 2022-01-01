@@ -9,6 +9,7 @@ import {
   View,
   PermissionsAndroid,
   Platform,
+  Alert,
 } from 'react-native';
 
 import {RNCamera} from 'react-native-camera';
@@ -67,9 +68,15 @@ const App = () => {
   const handleSnap = async () => {
     if (cameraRef && cameraRef.current && cameraRef.current.takePictureAsync) {
       const options = {quality: 1.0};
-      const pictureResponse = await cameraRef.current.takePictureAsync(options);
-      if (pictureResponse.uri) {
-        savePicture(pictureResponse.uri);
+      try {
+        const pictureResponse = await cameraRef.current.takePictureAsync(
+          options,
+        );
+        if (pictureResponse.uri) {
+          savePicture(pictureResponse.uri);
+        }
+      } catch {
+        Alert.alert('An error ocurred', 'Failed photo capture');
       }
     }
   };
