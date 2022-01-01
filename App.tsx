@@ -45,8 +45,11 @@ const App = () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
       return;
     }
-
-    CameraRoll.save(tag, {type: 'photo'});
+    try {
+      CameraRoll.save(tag, {type: 'photo'});
+    } catch {
+      Alert.alert('An error ocurred', 'Failed saving photo to library.');
+    }
   };
 
   const handleFlipCamera = () => {
