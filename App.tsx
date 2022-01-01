@@ -69,6 +69,7 @@ const App = () => {
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
         }}
+        useNativeZoom
       />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={handleFlipCamera}>
