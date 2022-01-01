@@ -59,5 +59,9 @@
 	<string>We need permission to access your library of photos to read and save.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need permission to access your device microphone to record audio.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MaterialIcons.ttf</string>
+	</array>
 </dict>
 </plist>
