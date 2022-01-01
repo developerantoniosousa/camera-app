@@ -46,7 +46,8 @@ const App = () => {
       return;
     }
     try {
-      CameraRoll.save(tag, {type: 'photo'});
+      await CameraRoll.save(tag, {type: 'photo'});
+      Alert.alert('Success', 'Photo has been saved in photo library.');
     } catch {
       Alert.alert('An error ocurred', 'Failed saving photo to library.');
     }
