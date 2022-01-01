@@ -63,7 +63,7 @@ const App = () => {
 
   const handleFlashMode = () => {
     let nextFlashMode = RNCamera.Constants.FlashMode.on;
-    if (currentCamera === RNCamera.Constants.FlashMode.on) {
+    if (flashMode === RNCamera.Constants.FlashMode.on) {
       nextFlashMode = RNCamera.Constants.FlashMode.off;
     }
     setFlashMode(nextFlashMode);
